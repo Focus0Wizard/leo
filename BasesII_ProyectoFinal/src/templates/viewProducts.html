@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Productos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='indexStyles.css') }}">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Tienda de Instrumentos</h1>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('index') }}">Inicio</a></li>
+                    <li><a href="{{ url_for('index') }}#about">Nosotros</a></li>
+                    <li><a href="{{ url_for('index') }}#products">Productos</a></li>
+                    <li><a href="{{ url_for('index') }}#contact">Contacto</a></li>
+                    <li><a href="{{ url_for('view_cart') }}" class="btn">Ver Carrito</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <main>
+        <section id="products" class="products">
+            <div class="container">
+                <h2>Todos los Productos</h2>
+                {% for instrument in instruments %}
+                    <div class="product-item">
+                        <img src="{{ url_for('static', filename=instrument['image']) }}" alt="{{ instrument['name'] }}">
+                        <h3>{{ instrument['name'] }}</h3>
+                        <p>${{ instrument['price'] }}</p>
+                    </div>
+                    {% endfor %}
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Tienda de Instrumentos. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+</body>
+</html>

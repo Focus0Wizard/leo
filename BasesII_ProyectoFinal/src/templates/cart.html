@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito de Compras</title>
+    <!-- Vinculación del archivo CSS para los estilos del carrito -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='cartStyles.css') }}">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Carrito de Compras</h1>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('index') }}">Inicio</a></li>
+                    <li><a href="{{ url_for('index') }}#about">Nosotros</a></li>
+                    <li><a href="{{ url_for('index') }}#products">Productos</a></li>
+                    <li><a href="{{ url_for('index') }}#contact">Contacto</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <main>
+        <div class="container">
+            <h2>Tu Carrito</h2>
+            <!-- Verificar si el carrito contiene ítems -->
+            {% if cart %}
+                <ul class="cart-list">
+                    {% for item in cart %}
+                        <li class="cart-item">
+                            <!-- Mostrar la imagen del ítem -->
+                            <img src="{{ url_for('static', filename=item['image']) }}" alt="{{ item['name'] }}">
+                            <div>
+                                <!-- Mostrar el nombre y precio del ítem -->
+                                <h3>{{ item['name'] }}</h3>
+                                <p>${{ item['price'] }}</p>
+                                <form action="{{ url_for('remove_from_cart', instrument_id=item['id']) }}" method="post">
+                                    <button type="submit" class="btn">Quitar del carrito</button>
+                                </form>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+                <!-- Mostrar el total de la compra fuera del bucle -->
+                <p>Total de la compra: ${{ "%.2f"|format(total) }}</p>
+                <form action="#" method="post">
+                <label for="tarjeta">Número de Tarjeta de Crédito:</label>
+                <input type="text" id="tarjeta" name="tarjeta" required>
+            </form>
+                <a href="{{ url_for('pago_exitoso') }}" class="btn">Proceder al Pago</a>
+            {% else %}
+                <!-- Mensaje si el carrito está vacío -->
+                <p>Tu carrito está vacío</p>
+                <a href="{{ url_for('index') }}" class="btn">Ver Productos</a>
+            {% endif %}
+        </div>
+    </main>
+    
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Tienda de Instrumentos. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+</body>
+</html>

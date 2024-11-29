@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda de Guitarras</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='indexStyles.css') }}">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Tienda de Instrumentos: "JHertz"</h1>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('index') }}">Inicio</a></li>
+                    <li><a href="#about">Nosotros</a></li>
+                    <li><a href="{{ url_for('viewProducts') }}">Productos</a></li>
+                    <li><a href="#contact">Contacto</a></li>
+                    <li><a href="{{ url_for('view_cart') }}" class="btn">Ver Carrito</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <main>
+        <section id="home" class="hero">
+            <div class="container">
+                <h2>Bienvenido a la Tienda de Instrumentos: "JHertz"</h2>
+                <p>Encuentra los mejores instrumentos a los mejores precios.</p>
+                <a href="#products" class="btn">Ver Productos</a>
+            </div>
+        </section>
+        
+        <section id="about" class="about">
+            <div class="container">
+                <h2>Nosotros</h2>
+                <p>Somos una tienda especializada en instrumentos de alta calidad, con más de 20 años de experiencia.</p>
+            </div>
+        </section>
+        
+        <section id="products" class="products">
+            <div class="container">
+                <h2>Productos Destacados</h2>
+                <div class="product-list">
+                    {% for instrument in instruments %}
+                    <div class="product-item">
+                        <img src="{{ url_for('static', filename=instrument['image']) }}" alt="{{ instrument['name'] }}">
+                        <h3>{{ instrument['name'] }}</h3>
+                        <p>${{ instrument['price'] }}</p>
+                        <form action="{{ url_for('add_to_cart', instrument_id=instrument['_id']) }}" method="post">
+                            <button type="submit" class="btn">Agregar al carrito</button>
+                        </form>
+                        <a href="#" class="btn-secondary">Ver más</a>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+        
+        <section id="contact" class="contact">
+            <div class="container">
+                <h2>Contacto</h2>
+                <p>Email: contacto@tiendadeinstrumentos.com</p>
+                <p>Teléfono: +123 456 7890</p>
+                <a href="mailto:contacto@tiendadeinstrumentos.com" class="btn">Contactar</a>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Tienda de Instrumentos. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+</body>
+</html>
